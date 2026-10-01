@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discovery Lab at UCSF</title>
+    <meta name="description" content="Discovery Lab led by Brian Cheung. We build AI systems that accelerate scientific discovery and reveal emergent structure in biology.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            color-scheme: dark;
+            /* Backgrounds */
+            --bg-main: #0B0C10;
+            --bg-surface: #1F2833;
+
+            /* Text */
+            --text-main: #C5C6C7;
+            --text-muted: #889299;
+
+            /* Accents */
+            --accent-primary: #FF2A55;
+            --accent-secondary: #66FCF1;
+            --accent-tertiary: #45A29E;
+
+            /* Utility */
+            --border-color: #2C353F;
+            --glow-primary: rgba(255, 42, 85, 0.12);
+            --glow-secondary: rgba(102, 252, 241, 0.12);
+            --accent-secondary-weak: rgba(102, 252, 241, 0.45);
+            --accent-contrast: #0B0C10;
+            --live-color: rgba(102, 252, 241, 0.35);
+
+            /* Compatibility tokens */
+            --bg: var(--bg-main);
+            --bg-2: var(--bg-surface);
+            --ink: var(--text-main);
+            --muted: var(--text-muted);
+            --accent: var(--accent-secondary);
+            --line: var(--border-color);
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                color-scheme: light;
+                --bg-main: #F7F2E9;
+                --bg-surface: #EDE3D6;
+                --text-main: #201B16;
+                --text-muted: #6A6056;
+                --accent-primary: #D7264C;
+                --accent-secondary: #0E8C84;
+                --accent-tertiary: #B85B6A;
+                --border-color: #D6CBBE;
+                --glow-primary: rgba(215, 38, 76, 0.12);
+                --glow-secondary: rgba(14, 140, 132, 0.15);
+                --accent-secondary-weak: rgba(14, 140, 132, 0.35);
+                --accent-contrast: #F7F2E9;
+                --live-color: rgba(14, 140, 132, 0.3);
+            }
+        }
+
+        html[data-theme="light"] {
+            color-scheme: light;
+            --bg-main: #F7F2E9;
+            --bg-surface: #EDE3D6;
+            --text-main: #201B16;
+            --text-muted: #6A6056;
+            --accent-primary: #D7264C;
+            --accent-secondary: #0E8C84;
+            --accent-tertiary: #B85B6A;
+            --border-color: #D6CBBE;
+            --glow-primary: rgba(215, 38, 76, 0.12);
+            --glow-secondary: rgba(14, 140, 132, 0.15);
+            --accent-secondary-weak: rgba(14, 140, 132, 0.35);
+            --accent-contrast: #F7F2E9;
+            --live-color: rgba(14, 140, 132, 0.3);
+        }
+
+        html[data-theme="dark"] {
+            color-scheme: dark;
+            --bg-main: #0B0C10;
+            --bg-surface: #1F2833;
+            --text-main: #C5C6C7;
+            --text-muted: #889299;
+            --accent-primary: #FF2A55;
+            --accent-secondary: #66FCF1;
+            --accent-tertiary: #45A29E;
+            --border-color: #2C353F;
+            --glow-primary: rgba(255, 42, 85, 0.12);
+            --glow-secondary: rgba(102, 252, 241, 0.12);
+            --accent-secondary-weak: rgba(102, 252, 241, 0.45);
+            --accent-contrast: #0B0C10;
+            --live-color: rgba(102, 252, 241, 0.35);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Courier New", monospace;
+            color: var(--text-main);
+            background-color: var(--bg-main);
+            background-image:
+                radial-gradient(circle at 18% 14%, var(--glow-secondary), transparent 42%),
+                radial-gradient(circle at 85% 8%, var(--glow-primary), transparent 40%),
+                linear-gradient(135deg, var(--bg-main), var(--bg-surface));
+            min-height: 100vh;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .page {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 28px 20px 64px;
+        }
+
+        .top-nav {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            font-family: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            font-size: 0.78rem;
+            color: var(--muted);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            font-size: 0.92rem;
+            color: var(--muted);
+            font-family: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--ink);
+        }
+
+        .theme-toggle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            padding: 0;
+            border: 1px solid var(--line);
+            background: transparent;
+            color: var(--muted);
+            border-radius: 999px;
+            font-family: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+            font-size: 0.95rem;
+            line-height: 1;
+            letter-spacing: 0;
+            text-transform: none;
+            cursor: pointer;
+            transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+        }
+
+        .theme-toggle:hover {
+            color: var(--ink);
+            border-color: var(--accent-secondary);
+        }
+
+        .theme-toggle[aria-pressed="true"] {
+            background: var(--accent-secondary);
+            color: var(--accent-contrast);
+            border-color: transparent;
+        }
+
+        .theme-toggle:focus-visible {
+            outline: 2px solid var(--accent-secondary-weak);
+            outline-offset: 2px;
+        }
+
+        .theme-icon {
+            line-height: 1;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            min-height: 100svh;
+            overflow: hidden;
+        }
+
+        .eyebrow {
+            font-family: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.22em;
+            font-size: 0.72rem;
+            color: var(--muted);
+        }
+
+        .lead {
+            font-size: 1.08rem;
+            line-height: 1.6;
+            margin: 0 0 20px;
+            color: var(--muted);
+        }
+
+        .hero-links {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            font-family: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+            font-size: 0.92rem;
+        }
+
+        .hero-links a {
+            color: var(--muted);
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 2px;
+            transition: color 0.2s ease;
+        }
+
+        .hero-links a:hover {
+            color: var(--ink);
+        }
+
+        .meta {
+            font-size: 0.92rem;
+            color: var(--muted);
+            margin-top: 14px;
+        }
+
+        #ca-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            opacity: 0.6;
+            pointer-events: auto;
+            cursor: crosshair;
+            touch-action: none;
+            z-index: 0;
+        }
+
+        .hero-overlay {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .hero-inner {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 28px 20px 32px;
+            min-height: 100vh;
+            min-height: 100svh;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .ca-controls {
+            display: grid;
+            gap: 12px;
+            font-family: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+            color: var(--muted);
+            margin-top: auto;
+            pointer-events: auto;
+        }
+
+        .top-nav {
+            pointer-events: auto;
+        }
+
+        .intro {
+            max-width: 640px;
+            display: grid;
+            gap: 12px;
+        }
+
+        .ca-rule-set {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            align-items: flex-start;
+        }
+
+        .ca-rule-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .ca-rule-title {
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        .ca-toggles {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .ca-toggle {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .ca-toggle input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .ca-toggle span {
+            width: 22px;
+            height: 22px;
+            border-radius: 999px;
+            border: 1px solid var(--line);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            background: var(--bg-surface);
+            color: var(--muted);
+            transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .ca-toggle input:checked + span {
+            background: var(--accent-secondary);
+            color: var(--accent-contrast);
+            border-color: transparent;
+        }
+
+        .ca-toggle input:focus-visible + span {
+            outline: 2px solid var(--accent-secondary-weak);
+            outline-offset: 2px;
+        }
+
+        .ca-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .ca-button {
+            border: 1px solid var(--line);
+            background: transparent;
+            color: var(--muted);
+            width: 34px;
+            height: 34px;
+            padding: 0;
+            border-radius: 999px;
+            font-size: 0.95rem;
+            letter-spacing: 0;
+            text-transform: none;
+            cursor: pointer;
+            transition: color 0.2s ease, border-color 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ca-button:hover {
+            color: var(--ink);
+            border-color: rgba(197, 198, 199, 0.35);
+        }
+
+        main {
+            margin-top: 0;
+        }
+
+        .section {
+            padding-top: 24px;
+            margin-top: 36px;
+            border-top: 1px solid var(--line);
+        }
+
+        h2 {
+            font-family: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+            font-size: clamp(1.4rem, 2.4vw, 2rem);
+            margin: 0 0 16px;
+        }
+
+        h3 {
+            font-family: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+            font-size: 1rem;
+            margin: 0 0 10px;
+        }
+
+        p {
+            margin: 0 0 14px;
+        }
+
+        .split {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+        }
+
+        .list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 10px;
+            color: var(--muted);
+        }
+
+        .list li {
+            position: relative;
+            padding-left: 16px;
+        }
+
+        .list li::before {
+            content: "-";
+            position: absolute;
+            left: 0;
+            color: var(--accent-tertiary);
+        }
+
+        .role {
+            font-family: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            font-size: 0.7rem;
+            color: var(--muted);
+        }
+
+        .name {
+            font-weight: 600;
+            margin: 8px 0 6px;
+        }
+
+        .note {
+            border-left: 2px solid var(--line);
+            padding-left: 16px;
+            color: var(--muted);
+        }
+
+        .contact-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            font-family: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .contact-links a {
+            color: var(--muted);
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 2px;
+        }
+
+        .footer {
+            margin-top: 54px;
+            font-size: 0.85rem;
+            color: var(--muted);
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(12px);
+            animation: fadeUp 0.7s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+        .delay-6 { animation-delay: 0.6s; }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .hero-inner {
+                padding: 24px 20px 28px;
+            }
+
+            .intro {
+                max-width: 100%;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <canvas id="ca-canvas" aria-hidden="true"></canvas>
+        <div class="hero-overlay">
+            <div class="hero-inner">
+                <nav class="top-nav fade-up delay-1" aria-label="Primary">
+                    <div class="brand">Discovery Lab at UCSF</div>
+                    <div class="nav-actions">
+                        <div class="nav-links">
+                            <a href="#research">Research</a>
+                            <a href="#people">People</a>
+                            <a href="#contact">Contact</a>
+                        </div>
+                        <button class="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle theme" data-theme-toggle>
+                            <span class="theme-icon" aria-hidden="true" data-theme-icon>&#x263E;</span>
+                            <span class="sr-only" data-theme-label>Theme: Dark</span>
+                        </button>
+                    </div>
+                </nav>
+
+                <div class="ca-controls fade-up delay-2">
+                    <div class="ca-rule-set">
+                    <div class="ca-rule-group">
+                        <span class="ca-rule-title">Birth</span>
+                        <div class="ca-toggles" data-rule="birth">
+                            <label class="ca-toggle" aria-label="Birth with 0 neighbors">
+                                <input type="checkbox" value="0" aria-label="Birth with 0 neighbors">
+                                <span aria-hidden="true">0</span>
+                            </label>
+                            <label class="ca-toggle" aria-label="Birth with 1 neighbor">
+                                <input type="checkbox" value="1" aria-label="Birth with 1 neighbor">
+                                <span aria-hidden="true">1</span>
+                            </label>
+                            <label class="ca-toggle" aria-label="Birth with 2 neighbors">
+                                <input type="checkbox" value="2" aria-label="Birth with 2 neighbors">
+                                <span aria-hidden="true">2</span>
+                            </label>
+                            <label class="ca-toggle" aria-label="Birth with 3 neighbors">
+                                <input type="checkbox" value="3" checked aria-label="Birth with 3 neighbors">
+                                <span aria-hidden="true">3</span>
+                            </label>
+                            <label class="ca-toggle" aria-label="Birth with 4 neighbors">
+                                <input type="checkbox" value="4" aria-label="Birth with 4 neighbors">
+                                <span aria-hidden="true">4</span>
+                            </label>
+                            <label class="ca-toggle" aria-label="Birth with 5 neighbors">
+                                <input type="checkbox" value="5" aria-label="Birth with 5 neighbors">
+                                <span aria-hidden="true">5</span>
+                            </label>
+                            <label class="ca-toggle" aria-label="Birth with 6 neighbors">
+                                <input type="checkbox" value="6" aria-label="Birth with 6 neighbors">
+                                <span aria-hidden="true">6</span>
+                            </label>
+                            <label class="ca-toggle" aria-label="Birth with 7 neighbors">
+                                <input type="checkbox" value="7" aria-label="Birth with 7 neighbors">
+                                <span aria-hidden="true">7</span>
+                            </label>
+                            <label class="ca-toggle" aria-label="Birth with 8 neighbors">
+                                <input type="checkbox" value="8" aria-label="Birth with 8 neighbors">
+                                <span aria-hidden="true">8</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="ca-rule-group">
+                        <span class="ca-rule-title">Survive</span>
+                        <div class="ca-toggles" data-rule="survive">
+                            <label class="ca-toggle" aria-label="Survive with 0 neighbors">
+                                <input type="checkbox" value="0" aria-label="Survive with 0 neighbors">
+                                <span aria-hidden="true">0</span>
+                            </label>
+                            <label class="ca-toggle" aria-label="Survive with 1 neighbor">
+                                <input type="checkbox" value="1" aria-label="Survive with 1 neighbor">
+                                <span aria-hidden="true">1</span>
+                            </label>
+                            <label class="ca-toggle" aria-label="Survive with 2 neighbors">
+                                <input type="checkbox" value="2" checked aria-label="Survive with 2 neighbors">
+                                <span aria-hidden="true">2</span>
+                            </label>
+                            <label class="ca-toggle" aria-label="Survive with 3 neighbors">
+                                <input type="checkbox" value="3" checked aria-label="Survive with 3 neighbors">
+                                <span aria-hidden="true">3</span>
+                            </label>
+                            <label class="ca-toggle" aria-label="Survive with 4 neighbors">
+                                <input type="checkbox" value="4" aria-label="Survive with 4 neighbors">
+                                <span aria-hidden="true">4</span>
+                            </label>
+                            <label class="ca-toggle" aria-label="Survive with 5 neighbors">
+                                <input type="checkbox" value="5" aria-label="Survive with 5 neighbors">
+                                <span aria-hidden="true">5</span>
+                            </label>
+                            <label class="ca-toggle" aria-label="Survive with 6 neighbors">
+                                <input type="checkbox" value="6" aria-label="Survive with 6 neighbors">
+                                <span aria-hidden="true">6</span>
+                            </label>
+                            <label class="ca-toggle" aria-label="Survive with 7 neighbors">
+                                <input type="checkbox" value="7" aria-label="Survive with 7 neighbors">
+                                <span aria-hidden="true">7</span>
+                            </label>
+                            <label class="ca-toggle" aria-label="Survive with 8 neighbors">
+                                <input type="checkbox" value="8" aria-label="Survive with 8 neighbors">
+                                <span aria-hidden="true">8</span>
+                            </label>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="ca-buttons">
+                        <button class="ca-button" type="button" id="ca-pause" aria-label="Pause" title="Pause">&#x23F8;</button>
+                        <button class="ca-button" type="button" id="ca-reset" aria-label="Reset" title="Reset">&#x21bb;</button>
+                        <button class="ca-button" type="button" id="ca-clear" aria-label="Clear" title="Clear">&#x2715;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="page">
+        <main>
+            <section class="intro fade-up delay-3">
+                <div class="eyebrow">University of California, San Francisco</div>
+                <p class="lead">
+                    Building a science around AI for emergence and discovery.
+                </p>
+                <div class="hero-links">
+                    <a href="mailto:bcheung@ucsf.edu">bcheung@ucsf.edu</a>
+                    <a href="https://goo.gl/HQxkz9">Scholar</a>
+                    <a href="https://twitter.com/thisismyhat">Twitter</a>
+                    <a href="https://github.com/briancheung">GitHub</a>
+                </div>
+                <p class="meta">San Francisco, CA.</p>
+            </section>
+
+            <section id="research" class="section fade-up delay-4">
+                <h2>Research</h2>
+                <div class="split">
+                    <div>
+                        <p>We study intelligence in many forms: natural, artificial and collective.</p>
+                    </div>
+                    <ul class="list">
+                        <li>Open-ended environments for AI.</li>
+                        <li>Convergent representations across modalities.</li>
+                        <li>AI for scientific discovery.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="people" class="section fade-up delay-5">
+                <h2>People</h2>
+                <div class="split">
+                    <div>
+                        <div class="role">Principal Investigator</div>
+                        <div class="name">Brian Cheung</div>
+                        <p class="meta">
+                            Assistant Professor in the Department of Bioengineering and Therapeutic Sciences at the University of California, San Francisco (UCSF).
+                        </p>
+                    </div>
+                    <div class="note">
+                        <h3>Open positions</h3>
+                        <p>Postdocs, students, and research engineers interested in AI for science.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="contact" class="section fade-up delay-6">
+                <h2>Contact</h2>
+                <div class="split">
+                    <div>
+                        <p>Email: <a href="mailto:bcheung@ucsf.edu">bcheung@ucsf.edu</a></p>
+                        <p>Location: UCSF Mission Bay Campus</p>
+                    </div>
+                    <div class="contact-links">
+                        <a href="https://goo.gl/HQxkz9">Google Scholar</a>
+                        <a href="https://twitter.com/thisismyhat">@thisismyhat</a>
+                        <a href="https://github.com/briancheung">briancheung</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div>Discovery Lab</div>
+            <div>Last updated: Sep 2026</div>
+        </footer>
+    </div>
+
+    <script>
+        const canvas = document.getElementById("ca-canvas");
+        const ctx = canvas.getContext("2d");
+        const hero = document.querySelector(".hero");
+        const birthInputs = Array.from(document.querySelectorAll('[data-rule="birth"] input'));
+        const surviveInputs = Array.from(document.querySelectorAll('[data-rule="survive"] input'));
+        const pauseButton = document.getElementById("ca-pause");
+        const resetButton = document.getElementById("ca-reset");
+        const clearButton = document.getElementById("ca-clear");
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const prefersDarkQuery = window.matchMedia("(prefers-color-scheme: dark)");
+        const themeToggle = document.querySelector("[data-theme-toggle]");
+        const themeIcon = document.querySelector("[data-theme-icon]");
+        const themeLabel = document.querySelector("[data-theme-label]");
+        const themeStorageKey = "theme-preference";
+
+        const phrase = "DiscoLab";
+        const fontFamily = "\"Space Grotesk\", sans-serif";
+
+        let cellSize = 7;
+        let cols = 0;
+        let rows = 0;
+        let grid = [];
+        let nextGrid = [];
+        let running = false;
+        let manualPaused = true;
+        let userToggled = false;
+        let allowEmpty = false;
+        let isDrawing = false;
+        let lastTick = 0;
+        const stepMs = 160;
+        let birthRules = new Set([3]);
+        let survivalRules = new Set([2, 3]);
+        let liveColor = "rgba(102, 252, 241, 0.35)";
+
+        function getStoredTheme() {
+            try {
+                const stored = localStorage.getItem(themeStorageKey);
+                return stored === "light" || stored === "dark" ? stored : null;
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function getSystemTheme() {
+            return prefersDarkQuery.matches ? "dark" : "light";
+        }
+
+        function updateLiveColor() {
+            const styles = getComputedStyle(document.documentElement);
+            const nextColor = styles.getPropertyValue("--live-color").trim();
+            if (nextColor) {
+                liveColor = nextColor;
+            }
+        }
+
+        function applyTheme(theme) {
+            document.documentElement.setAttribute("data-theme", theme);
+            if (themeToggle) {
+                themeToggle.setAttribute("aria-pressed", theme === "dark");
+                themeToggle.setAttribute(
+                    "aria-label",
+                    theme === "dark" ? "Switch to light theme" : "Switch to dark theme"
+                );
+            }
+            if (themeIcon) {
+                themeIcon.innerHTML = theme === "dark" ? "&#x263E;" : "&#x2600;";
+            }
+            if (themeLabel) {
+                themeLabel.textContent = theme === "dark" ? "Theme: Dark" : "Theme: Light";
+            }
+            updateLiveColor();
+            draw();
+        }
+
+        function handleToggle() {
+            const nextTheme = (getStoredTheme() || getSystemTheme()) === "dark" ? "light" : "dark";
+            try {
+                localStorage.setItem(themeStorageKey, nextTheme);
+            } catch (error) {
+            }
+            applyTheme(nextTheme);
+        }
+
+        function handleSystemChange() {
+            if (getStoredTheme()) {
+                return;
+            }
+            applyTheme(getSystemTheme());
+        }
+
+        function updateRunning() {
+            running = !prefersReducedMotion && !document.hidden && !manualPaused;
+        }
+
+        function updateRulesFromInputs() {
+            birthRules = new Set(
+                birthInputs.filter((input) => input.checked).map((input) => Number(input.value))
+            );
+            survivalRules = new Set(
+                surviveInputs.filter((input) => input.checked).map((input) => Number(input.value))
+            );
+        }
+
+        function syncPauseButton() {
+            pauseButton.innerHTML = manualPaused ? "&#x25B6;" : "&#x23F8;";
+            pauseButton.setAttribute("aria-label", manualPaused ? "Resume" : "Pause");
+            pauseButton.setAttribute("title", manualPaused ? "Resume" : "Pause");
+        }
+
+        function makeGrid(width, height) {
+            const arr = new Array(height);
+            for (let y = 0; y < height; y++) {
+                arr[y] = new Array(width).fill(0);
+            }
+            return arr;
+        }
+
+        function fitFont(lines, baseSize, context) {
+            let fontSize = baseSize;
+            context.font = `700 ${fontSize}px ${fontFamily}`;
+            let maxLine = 0;
+            for (const line of lines) {
+                maxLine = Math.max(maxLine, context.measureText(line).width);
+            }
+            const maxWidth = cols * 0.86;
+            if (maxLine > maxWidth) {
+                fontSize = Math.max(8, Math.floor(fontSize * maxWidth / maxLine));
+                context.font = `700 ${fontSize}px ${fontFamily}`;
+            }
+            return fontSize;
+        }
+
+        function seedFromText() {
+            const offscreen = document.createElement("canvas");
+            offscreen.width = cols;
+            offscreen.height = rows;
+            const offCtx = offscreen.getContext("2d");
+            offCtx.clearRect(0, 0, cols, rows);
+            offCtx.fillStyle = "#000";
+            offCtx.textAlign = "center";
+            offCtx.textBaseline = "middle";
+
+            let lines = [phrase];
+            let fontSize = fitFont(lines, Math.floor(rows * 0.4), offCtx);
+            if (fontSize < rows * 0.22 && phrase.includes(" ")) {
+                lines = ["AI for", "Discovery"];
+                fontSize = fitFont(lines, Math.floor(rows * 0.32), offCtx);
+            }
+
+            const lineHeight = fontSize * 1.12;
+            const startY = rows / 2 - (lineHeight * (lines.length - 1)) / 2;
+
+            for (let i = 0; i < lines.length; i++) {
+                offCtx.fillText(lines[i], cols / 2, startY + i * lineHeight);
+            }
+
+            const data = offCtx.getImageData(0, 0, cols, rows).data;
+            for (let y = 0; y < rows; y++) {
+                for (let x = 0; x < cols; x++) {
+                    const alpha = data[(y * cols + x) * 4 + 3];
+                    grid[y][x] = alpha > 10 ? 1 : 0;
+                }
+            }
+
+            sprinkle(0.014);
+            allowEmpty = false;
+        }
+
+        function sprinkle(density) {
+            for (let y = 0; y < rows; y++) {
+                for (let x = 0; x < cols; x++) {
+                    if (!grid[y][x] && Math.random() < density) {
+                        grid[y][x] = 1;
+                    }
+                }
+            }
+        }
+
+        function resize() {
+            const rect = hero.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+            cellSize = rect.width < 480 ? 8 : 6;
+            canvas.width = Math.floor(rect.width * dpr);
+            canvas.height = Math.floor(rect.height * dpr);
+            canvas.style.width = `${rect.width}px`;
+            canvas.style.height = `${rect.height}px`;
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            cols = Math.max(1, Math.floor(rect.width / cellSize));
+            rows = Math.max(1, Math.floor(rect.height / cellSize));
+            grid = makeGrid(cols, rows);
+            nextGrid = makeGrid(cols, rows);
+            seedFromText();
+            draw();
+        }
+
+        function countNeighbors(x, y) {
+            let count = 0;
+            for (let dy = -1; dy <= 1; dy++) {
+                for (let dx = -1; dx <= 1; dx++) {
+                    if (dx === 0 && dy === 0) continue;
+                    const nx = (x + dx + cols) % cols;
+                    const ny = (y + dy + rows) % rows;
+                    count += grid[ny][nx];
+                }
+            }
+            return count;
+        }
+
+        function step() {
+            let liveCount = 0;
+            for (let y = 0; y < rows; y++) {
+                for (let x = 0; x < cols; x++) {
+                    const neighbors = countNeighbors(x, y);
+                    const alive = grid[y][x] === 1;
+                    const nextAlive = alive ? survivalRules.has(neighbors) : birthRules.has(neighbors);
+                    nextGrid[y][x] = nextAlive ? 1 : 0;
+                    liveCount += nextGrid[y][x];
+                }
+            }
+            const temp = grid;
+            grid = nextGrid;
+            nextGrid = temp;
+            if (liveCount === 0 && !allowEmpty) {
+                seedFromText();
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = liveColor;
+            const gap = 1;
+            const size = Math.max(1, cellSize - gap);
+            for (let y = 0; y < rows; y++) {
+                for (let x = 0; x < cols; x++) {
+                    if (grid[y][x]) {
+                        ctx.fillRect(x * cellSize + gap * 0.5, y * cellSize + gap * 0.5, size, size);
+                    }
+                }
+            }
+        }
+
+        function setCellFromEvent(event) {
+            const rect = canvas.getBoundingClientRect();
+            const x = Math.floor((event.clientX - rect.left) / cellSize);
+            const y = Math.floor((event.clientY - rect.top) / cellSize);
+            if (x < 0 || y < 0 || x >= cols || y >= rows) {
+                return;
+            }
+            grid[y][x] = 1;
+            allowEmpty = false;
+            draw();
+        }
+
+        function loop(timestamp) {
+            if (running && timestamp - lastTick > stepMs) {
+                step();
+                draw();
+                lastTick = timestamp;
+            }
+            requestAnimationFrame(loop);
+        }
+
+        let resizeTimer;
+        window.addEventListener("resize", () => {
+            window.clearTimeout(resizeTimer);
+            resizeTimer = window.setTimeout(resize, 150);
+        });
+
+        document.addEventListener("visibilitychange", () => {
+            updateRunning();
+        });
+
+        birthInputs.forEach((input) => {
+            input.addEventListener("change", updateRulesFromInputs);
+        });
+
+        surviveInputs.forEach((input) => {
+            input.addEventListener("change", updateRulesFromInputs);
+        });
+
+        pauseButton.addEventListener("click", () => {
+            userToggled = true;
+            manualPaused = !manualPaused;
+            syncPauseButton();
+            updateRunning();
+        });
+
+        resetButton.addEventListener("click", () => {
+            seedFromText();
+            draw();
+            lastTick = performance.now();
+        });
+
+        clearButton.addEventListener("click", () => {
+            for (let y = 0; y < rows; y++) {
+                grid[y].fill(0);
+            }
+            allowEmpty = true;
+            draw();
+        });
+
+        canvas.addEventListener("pointerdown", (event) => {
+            isDrawing = true;
+            if (canvas.setPointerCapture) {
+                canvas.setPointerCapture(event.pointerId);
+            }
+            setCellFromEvent(event);
+        });
+
+        canvas.addEventListener("pointermove", (event) => {
+            if (!isDrawing) {
+                return;
+            }
+            setCellFromEvent(event);
+        });
+
+        canvas.addEventListener("pointerup", (event) => {
+            isDrawing = false;
+            if (canvas.releasePointerCapture && canvas.hasPointerCapture(event.pointerId)) {
+                canvas.releasePointerCapture(event.pointerId);
+            }
+        });
+
+        canvas.addEventListener("pointerleave", () => {
+            isDrawing = false;
+        });
+
+        canvas.addEventListener("pointercancel", () => {
+            isDrawing = false;
+        });
+
+        if (themeToggle) {
+            themeToggle.addEventListener("click", handleToggle);
+        }
+        if (prefersDarkQuery.addEventListener) {
+            prefersDarkQuery.addEventListener("change", handleSystemChange);
+        } else if (prefersDarkQuery.addListener) {
+            prefersDarkQuery.addListener(handleSystemChange);
+        }
+        applyTheme(getStoredTheme() || getSystemTheme());
+
+        updateRulesFromInputs();
+        updateRunning();
+        syncPauseButton();
+        resize();
+        window.setTimeout(() => {
+            if (!userToggled && manualPaused) {
+                manualPaused = false;
+                syncPauseButton();
+                updateRunning();
+            }
+        }, 3000);
+        requestAnimationFrame(loop);
+    </script>
+</body>
+</html>
