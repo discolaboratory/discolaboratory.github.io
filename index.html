@@ -519,6 +519,27 @@
             color: var(--ink);
         }
 
+        .member-names {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0 24px;
+            list-style: none;
+            margin: 24px 0 0;
+            padding: 0;
+            font-family: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--ink);
+        }
+
+        .member-names li {
+            min-width: 0;
+            line-height: 1.5;
+            padding: 14px 0;
+            border-top: 1px solid var(--line);
+            overflow-wrap: anywhere;
+        }
+
         .people-note {
             margin-top: 32px;
         }
@@ -612,9 +633,9 @@
         }
 
         @media (max-width: 420px) {
-            .members-grid {
+            .members-grid,
+            .member-names {
                 grid-template-columns: 1fr;
-                gap: 24px;
             }
         }
     </style>
@@ -774,19 +795,33 @@
                             Assistant Professor in the Department of Bioengineering and Therapeutic Sciences at the University of California, San Francisco (UCSF).
                         </p>
                     </div>
-                    <div class="members-grid">
-                        <figure class="member">
-                            <div class="member-portrait member-portrait--joyce">
-                                <img src="images/people/joyce-mo.jpg" alt="Portrait of Joyce Mo" width="2048" height="1965" loading="lazy" decoding="async">
-                            </div>
-                            <figcaption>Joyce Mo</figcaption>
-                        </figure>
-                        <figure class="member">
-                            <div class="member-portrait">
-                                <img src="images/people/beau-lonnquist.jpg" alt="Portrait of Beau Lonnquist" width="2048" height="2048" loading="lazy" decoding="async">
-                            </div>
-                            <figcaption>Beau Lonnquist</figcaption>
-                        </figure>
+                    <div class="people-members">
+                        <div class="members-grid">
+                            <figure class="member">
+                                <div class="member-portrait member-portrait--joyce">
+                                    <img src="images/people/joyce-mo.jpg" alt="Portrait of Joyce Mo" width="2048" height="1965" loading="lazy" decoding="async">
+                                </div>
+                                <figcaption>Joyce Mo</figcaption>
+                            </figure>
+                            <figure class="member">
+                                <div class="member-portrait">
+                                    <img src="images/people/beau-lonnquist.jpg" alt="Portrait of Beau Lonnquist" width="2048" height="2048" loading="lazy" decoding="async">
+                                </div>
+                                <figcaption>Beau Lonnquist</figcaption>
+                            </figure>
+                        </div>
+                        <ul class="member-names" aria-label="Additional lab members">
+                            <li>David Mayo</li>
+                            <li>Kushagra Tiwary</li>
+                            <li>Vighnesh Subramaniam</li>
+                            <li>Abdul Alabdulkareem</li>
+                            <li>Sophie Wang</li>
+                            <li>Kristin Tsui</li>
+                            <li>Gin Wang</li>
+                            <li>Sophia Madejski</li>
+                            <li>Tracy Lou</li>
+                            <li>Jeffrey Wei</li>
+                        </ul>
                     </div>
                 </div>
                 <div class="note people-note">
