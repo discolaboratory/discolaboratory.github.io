@@ -458,34 +458,6 @@
             color: var(--accent-tertiary);
         }
 
-        .role {
-            font-family: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 0.18em;
-            font-size: 0.7rem;
-            color: var(--muted);
-        }
-
-        .name {
-            font-weight: 600;
-            margin: 8px 0 6px;
-        }
-
-        .people-layout {
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-            gap: 32px;
-            align-items: start;
-        }
-
-        .people-pi .meta {
-            line-height: 1.6;
-        }
-
-        .people-members {
-            min-width: 0;
-        }
-
         .member-names {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -589,13 +561,6 @@
             .fade-up {
                 opacity: 1;
                 transform: none;
-            }
-        }
-
-        @media (max-width: 720px) {
-            .people-layout {
-                grid-template-columns: 1fr;
-                gap: 20px;
             }
         }
 
@@ -753,32 +718,22 @@
 
             <section id="people" class="section fade-up delay-5">
                 <h2>People</h2>
-                <div class="people-layout">
-                    <div class="people-pi">
-                        <div class="role">Principal Investigator</div>
-                        <h3 class="name">Brian Cheung</h3>
-                        <p class="meta">
-                            Assistant Professor in the Department of Bioengineering and Therapeutic Sciences at the University of California, San Francisco (UCSF).
-                        </p>
-                    </div>
-                    <div class="people-members">
-                        <ul class="member-names" aria-label="Lab members">
-                            <li>Joyce Mo</li>
-                            <li>Beau Lonnquist</li>
-                            <li>David Mayo</li>
-                            <li>Kushagra Tiwary</li>
-                            <li>Vighnesh Subramaniam</li>
-                            <li>Abdul Alabdulkareem</li>
-                            <li>Sophie Wang</li>
-                            <li>Kristin Tsui</li>
-                            <li>Gin Wang</li>
-                            <li>Sophia Madejski</li>
-                            <li>Tracy Lou</li>
-                            <li>Jeffrey Wei</li>
-                            <li>Christopher Wang</li>
-                        </ul>
-                    </div>
-                </div>
+                <ul class="member-names" aria-label="Lab members">
+                    <li>Brian Cheung (PI)</li>
+                    <li>Joyce Mo</li>
+                    <li>Beau Lonnquist</li>
+                    <li>David Mayo</li>
+                    <li>Kushagra Tiwary</li>
+                    <li>Vighnesh Subramaniam</li>
+                    <li>Abdul Alabdulkareem</li>
+                    <li>Sophie Wang</li>
+                    <li>Kristin Tsui</li>
+                    <li>Gin Wang</li>
+                    <li>Sophia Madejski</li>
+                    <li>Tracy Lou</li>
+                    <li>Jeffrey Wei</li>
+                    <li>Christopher Wang</li>
+                </ul>
                 <div class="note people-note">
                     <h3>Open positions</h3>
                     <p>Postdocs, students, and research engineers interested in AI for science.</p>
