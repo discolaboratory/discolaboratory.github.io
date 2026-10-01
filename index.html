@@ -471,6 +471,63 @@
             margin: 8px 0 6px;
         }
 
+        .people-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+            gap: 32px;
+            align-items: start;
+        }
+
+        .people-pi .meta {
+            line-height: 1.6;
+        }
+
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
+        }
+
+        .member {
+            margin: 0;
+            min-width: 0;
+        }
+
+        .member-portrait {
+            aspect-ratio: 1;
+            overflow: hidden;
+            background: var(--bg-surface);
+        }
+
+        .member-portrait img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .member-portrait--joyce img {
+            transform: scale(1.6);
+            transform-origin: 50% 70%;
+        }
+
+        .member figcaption {
+            margin-top: 14px;
+            font-family: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--ink);
+        }
+
+        .people-note {
+            margin-top: 32px;
+        }
+
+        .people-note p {
+            margin-bottom: 0;
+            line-height: 1.6;
+        }
+
         .note {
             border-left: 2px solid var(--line);
             padding-left: 16px;
@@ -539,6 +596,25 @@
             * {
                 animation: none !important;
                 transition: none !important;
+            }
+
+            .fade-up {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .people-layout {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .members-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
             }
         }
     </style>
@@ -690,18 +766,32 @@
 
             <section id="people" class="section fade-up delay-5">
                 <h2>People</h2>
-                <div class="split">
-                    <div>
+                <div class="people-layout">
+                    <div class="people-pi">
                         <div class="role">Principal Investigator</div>
-                        <div class="name">Brian Cheung</div>
+                        <h3 class="name">Brian Cheung</h3>
                         <p class="meta">
                             Assistant Professor in the Department of Bioengineering and Therapeutic Sciences at the University of California, San Francisco (UCSF).
                         </p>
                     </div>
-                    <div class="note">
-                        <h3>Open positions</h3>
-                        <p>Postdocs, students, and research engineers interested in AI for science.</p>
+                    <div class="members-grid">
+                        <figure class="member">
+                            <div class="member-portrait member-portrait--joyce">
+                                <img src="images/people/joyce-mo.jpg" alt="Portrait of Joyce Mo" width="2048" height="1965" loading="lazy" decoding="async">
+                            </div>
+                            <figcaption>Joyce Mo</figcaption>
+                        </figure>
+                        <figure class="member">
+                            <div class="member-portrait">
+                                <img src="images/people/beau-lonnquist.jpg" alt="Portrait of Beau Lonnquist" width="2048" height="2048" loading="lazy" decoding="async">
+                            </div>
+                            <figcaption>Beau Lonnquist</figcaption>
+                        </figure>
                     </div>
+                </div>
+                <div class="note people-note">
+                    <h3>Open positions</h3>
+                    <p>Postdocs, students, and research engineers interested in AI for science.</p>
                 </div>
             </section>
 
