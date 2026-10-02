@@ -5,9 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Discovery Lab at UCSF</title>
     <meta name="description" content="Discovery Lab led by Brian Cheung. We build AI systems that accelerate scientific discovery and reveal emergent structure in biology.">
+    <link rel="canonical" href="https://discolab.org/">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta property="og:title" content="Discovery Lab at UCSF">
+    <meta property="og:description" content="We build AI systems for scientific discovery at the University of California, San Francisco.">
+    <meta property="og:url" content="https://discolab.org/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Discovery Lab">
+    <meta property="og:image" content="https://discolab.org/images/social-preview.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Discovery Lab at UCSF — AI for scientific discovery, with a cellular automaton pattern.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Discovery Lab at UCSF">
+    <meta name="twitter:description" content="We build AI systems for scientific discovery at the University of California, San Francisco.">
+    <meta name="twitter:image" content="https://discolab.org/images/social-preview.png">
+    <meta name="twitter:image:alt" content="Discovery Lab at UCSF — AI for scientific discovery, with a cellular automaton pattern.">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <style>
         :root {
             color-scheme: dark;
@@ -49,7 +68,7 @@
                 --text-main: #201B16;
                 --text-muted: #6A6056;
                 --accent-primary: #D7264C;
-                --accent-secondary: #0E8C84;
+                --accent-secondary: #08756F;
                 --accent-tertiary: #B85B6A;
                 --border-color: #D6CBBE;
                 --glow-primary: rgba(215, 38, 76, 0.12);
@@ -67,7 +86,7 @@
             --text-main: #201B16;
             --text-muted: #6A6056;
             --accent-primary: #D7264C;
-            --accent-secondary: #0E8C84;
+            --accent-secondary: #08756F;
             --accent-tertiary: #B85B6A;
             --border-color: #D6CBBE;
             --glow-primary: rgba(215, 38, 76, 0.12);
@@ -113,6 +132,54 @@
         a {
             color: inherit;
             text-decoration: none;
+        }
+
+        a:focus-visible, button:focus-visible, #ca-canvas:focus-visible {
+            outline: 2px solid var(--accent-secondary);
+            outline-offset: 4px;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: 12px;
+            left: 20px;
+            transform: translateY(-200%);
+            z-index: 5;
+            padding: 12px 16px;
+            color: var(--ink);
+            background: var(--bg-main);
+        }
+
+        .skip-link:focus { transform: none; }
+
+        .hero-intro {
+            max-width: 650px;
+            margin-top: clamp(20px, 5vh, 56px);
+            pointer-events: auto;
+            padding: 16px 0;
+            background: radial-gradient(ellipse at left, var(--bg-main), transparent 85%);
+        }
+
+        h1 {
+            font-family: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+            font-size: clamp(2rem, 5vw, 3.4rem);
+            font-weight: 600;
+            letter-spacing: -0.04em;
+            margin: 0 0 12px;
+        }
+
+        .hero-intro .lead { color: var(--ink); max-width: 600px; }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 24px;
+            font-family: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+        }
+
+        .hero-actions a, .people-note a {
+            text-decoration: underline;
+            text-underline-offset: 4px;
         }
 
         .page {
@@ -166,8 +233,8 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 34px;
-            height: 34px;
+            width: 44px;
+            height: 44px;
             padding: 0;
             border: 1px solid var(--line);
             background: transparent;
@@ -194,7 +261,7 @@
         }
 
         .theme-toggle:focus-visible {
-            outline: 2px solid var(--accent-secondary-weak);
+            outline: 2px solid var(--accent-secondary);
             outline-offset: 2px;
         }
 
@@ -244,10 +311,13 @@
             display: block;
             opacity: 0.6;
             pointer-events: auto;
-            cursor: crosshair;
-            touch-action: none;
+            cursor: default;
+            touch-action: pan-y pinch-zoom;
             z-index: 0;
         }
+
+        #ca-canvas[data-draw-mode="true"] { cursor: crosshair; touch-action: none; }
+        #ca-canvas:focus-visible { outline-offset: -4px; opacity: 1; }
 
         .hero-overlay {
             position: relative;
@@ -274,7 +344,21 @@
             color: var(--muted);
             margin-top: auto;
             pointer-events: auto;
+            padding: 14px 16px;
+            margin-left: -16px;
+            margin-right: -16px;
+            background: var(--bg-main);
+            border: 1px solid var(--line);
+            border-radius: 4px;
         }
+
+        .ca-help, .ca-status {
+            font-size: 0.8rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .ca-status { min-height: 1.5em; }
 
         .top-nav {
             pointer-events: auto;
@@ -309,7 +393,7 @@
 
         .ca-toggles {
             display: flex;
-            gap: 6px;
+            gap: 4px;
             flex-wrap: wrap;
         }
 
@@ -327,14 +411,14 @@
         }
 
         .ca-toggle span {
-            width: 22px;
-            height: 22px;
+            width: 28px;
+            height: 32px;
             border-radius: 999px;
             border: 1px solid var(--line);
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.7rem;
+            font-size: 0.8rem;
             background: var(--bg-surface);
             color: var(--muted);
             transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
@@ -347,7 +431,7 @@
         }
 
         .ca-toggle input:focus-visible + span {
-            outline: 2px solid var(--accent-secondary-weak);
+            outline: 2px solid var(--accent-secondary);
             outline-offset: 2px;
         }
 
@@ -361,11 +445,12 @@
             border: 1px solid var(--line);
             background: transparent;
             color: var(--muted);
-            width: 34px;
-            height: 34px;
-            padding: 0;
-            border-radius: 999px;
-            font-size: 0.95rem;
+            min-width: 64px;
+            min-height: 40px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font: inherit;
+            font-size: 0.8rem;
             letter-spacing: 0;
             text-transform: none;
             cursor: pointer;
@@ -378,6 +463,11 @@
         .ca-button:hover {
             color: var(--ink);
             border-color: rgba(197, 198, 199, 0.35);
+        }
+
+        .ca-button[aria-pressed="true"] {
+            color: var(--accent-contrast);
+            background: var(--accent-secondary);
         }
 
         main {
@@ -511,6 +601,8 @@
             line-height: 1.6;
         }
 
+        .people-note p + p { margin-top: 12px; }
+
         .note {
             border-left: 2px solid var(--line);
             padding-left: 16px;
@@ -523,6 +615,7 @@
             gap: 16px;
             font-family: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
             font-size: 0.9rem;
+            align-items: flex-start;
         }
 
         .contact-links a {
@@ -591,12 +684,17 @@
             .member-names {
                 grid-template-columns: 1fr;
             }
+
+            .ca-rule-group { width: 100%; gap: 6px; }
+            .ca-rule-title { width: 100%; }
+            .ca-toggle span { width: 26px; }
+            .ca-controls { padding: 12px 14px; }
         }
     </style>
 </head>
 <body>
+    <a class="skip-link" href="#main-content">Skip to lab information</a>
     <header class="hero">
-        <canvas id="ca-canvas" aria-hidden="true"></canvas>
         <div class="hero-overlay">
             <div class="hero-inner">
                 <nav class="top-nav fade-up delay-1" aria-label="Primary">
@@ -614,7 +712,17 @@
                     </div>
                 </nav>
 
-                <div class="ca-controls fade-up delay-2">
+                <div class="hero-intro">
+                    <h1>Discovery Lab</h1>
+                    <p class="lead">We build AI systems for scientific discovery at the University of California, San Francisco.</p>
+                    <div class="hero-actions">
+                        <a href="#research">Explore our research</a>
+                        <a href="#join">Join the lab</a>
+                    </div>
+                </div>
+
+                <div class="ca-controls" role="group" aria-label="Cellular automaton controls">
+                    <p class="ca-help" id="ca-help">Explore a cellular automaton. Birth and Survive set the neighbor counts that create or keep a cell alive. Choose Draw to paint cells; turn it off to scroll.</p>
                     <div class="ca-rule-set">
                     <div class="ca-rule-group">
                         <span class="ca-rule-title">Birth</span>
@@ -700,23 +808,23 @@
                     </div>
                     </div>
                     <div class="ca-buttons">
-                        <button class="ca-button" type="button" id="ca-pause" aria-label="Pause" title="Pause">&#x23F8;</button>
-                        <button class="ca-button" type="button" id="ca-reset" aria-label="Reset" title="Reset">&#x21bb;</button>
-                        <button class="ca-button" type="button" id="ca-clear" aria-label="Clear" title="Clear">&#x2715;</button>
+                        <button class="ca-button" type="button" id="ca-pause">Play</button>
+                        <button class="ca-button" type="button" id="ca-step">Step</button>
+                        <button class="ca-button" type="button" id="ca-draw" aria-pressed="false" aria-controls="ca-canvas">Draw</button>
+                        <button class="ca-button" type="button" id="ca-preset">Glider</button>
+                        <button class="ca-button" type="button" id="ca-reset">Reseed</button>
+                        <button class="ca-button" type="button" id="ca-clear">Clear</button>
                     </div>
+                    <p class="ca-help" id="ca-keyboard-help">Keyboard: Tab to the board, use arrow keys to move and Space to toggle a cell. Escape leaves drawing mode. Play enables motion, including with reduced motion selected.</p>
+                    <p class="ca-status" id="ca-status" role="status" aria-live="polite" aria-atomic="true">Loading simulation.</p>
                 </div>
             </div>
         </div>
+        <canvas id="ca-canvas" tabindex="0" role="group" aria-label="Cellular automaton board" aria-describedby="ca-help ca-keyboard-help ca-status">Use the simulation controls to seed, clear, or step the board.</canvas>
     </header>
 
     <div class="page">
-        <main>
-            <section class="intro fade-up delay-3">
-                <p class="lead">
-                    A post AGI research lab building at the University of California, San Francisco
-                </p>
-            </section>
-
+        <main id="main-content" tabindex="-1">
             <section id="research" class="section fade-up delay-4">
                 <h2>Research</h2>
                 <div class="split">
@@ -778,9 +886,10 @@
                     <li>Jeffrey Wei</li>
                     <li>Christopher Wang</li>
                 </ul>
-                <div class="note people-note">
+                <div class="note people-note" id="join">
                     <h3>Open positions</h3>
-                    <p>Postdocs, students, and research engineers interested in AI for science.</p>
+                    <p>We welcome inquiries from postdocs and research engineers interested in AI for science. Email <a href="mailto:bcheung@ucsf.edu?subject=Discovery%20Lab%20inquiry">bcheung@ucsf.edu</a> with your CV, a short description of your research interests, and links to relevant papers or projects.</p>
+                    <p>Current UCSF graduate students can email about rotations. Prospective graduate students should apply through a UCSF graduate program; you are welcome to contact us about research fit.</p>
                 </div>
             </section>
 
@@ -806,360 +915,6 @@
         </footer>
     </div>
 
-    <script>
-        const canvas = document.getElementById("ca-canvas");
-        const ctx = canvas.getContext("2d");
-        const hero = document.querySelector(".hero");
-        const birthInputs = Array.from(document.querySelectorAll('[data-rule="birth"] input'));
-        const surviveInputs = Array.from(document.querySelectorAll('[data-rule="survive"] input'));
-        const pauseButton = document.getElementById("ca-pause");
-        const resetButton = document.getElementById("ca-reset");
-        const clearButton = document.getElementById("ca-clear");
-        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        const prefersDarkQuery = window.matchMedia("(prefers-color-scheme: dark)");
-        const themeToggle = document.querySelector("[data-theme-toggle]");
-        const themeIcon = document.querySelector("[data-theme-icon]");
-        const themeLabel = document.querySelector("[data-theme-label]");
-        const themeStorageKey = "theme-preference";
-
-        const phrase = "DiscoLab";
-        const fontFamily = "\"Space Grotesk\", sans-serif";
-
-        let cellSize = 7;
-        let cols = 0;
-        let rows = 0;
-        let grid = [];
-        let nextGrid = [];
-        let running = false;
-        let manualPaused = true;
-        let userToggled = false;
-        let allowEmpty = false;
-        let isDrawing = false;
-        let lastTick = 0;
-        const stepMs = 160;
-        let birthRules = new Set([3]);
-        let survivalRules = new Set([2, 3]);
-        let liveColor = "rgba(102, 252, 241, 0.35)";
-
-        function getStoredTheme() {
-            try {
-                const stored = localStorage.getItem(themeStorageKey);
-                return stored === "light" || stored === "dark" ? stored : null;
-            } catch (error) {
-                return null;
-            }
-        }
-
-        function getSystemTheme() {
-            return prefersDarkQuery.matches ? "dark" : "light";
-        }
-
-        function updateLiveColor() {
-            const styles = getComputedStyle(document.documentElement);
-            const nextColor = styles.getPropertyValue("--live-color").trim();
-            if (nextColor) {
-                liveColor = nextColor;
-            }
-        }
-
-        function applyTheme(theme) {
-            document.documentElement.setAttribute("data-theme", theme);
-            if (themeToggle) {
-                themeToggle.setAttribute("aria-pressed", theme === "dark");
-                themeToggle.setAttribute(
-                    "aria-label",
-                    theme === "dark" ? "Switch to light theme" : "Switch to dark theme"
-                );
-            }
-            if (themeIcon) {
-                themeIcon.innerHTML = theme === "dark" ? "&#x263E;" : "&#x2600;";
-            }
-            if (themeLabel) {
-                themeLabel.textContent = theme === "dark" ? "Theme: Dark" : "Theme: Light";
-            }
-            updateLiveColor();
-            draw();
-        }
-
-        function handleToggle() {
-            const nextTheme = (getStoredTheme() || getSystemTheme()) === "dark" ? "light" : "dark";
-            try {
-                localStorage.setItem(themeStorageKey, nextTheme);
-            } catch (error) {
-            }
-            applyTheme(nextTheme);
-        }
-
-        function handleSystemChange() {
-            if (getStoredTheme()) {
-                return;
-            }
-            applyTheme(getSystemTheme());
-        }
-
-        function updateRunning() {
-            running = !prefersReducedMotion && !document.hidden && !manualPaused;
-        }
-
-        function updateRulesFromInputs() {
-            birthRules = new Set(
-                birthInputs.filter((input) => input.checked).map((input) => Number(input.value))
-            );
-            survivalRules = new Set(
-                surviveInputs.filter((input) => input.checked).map((input) => Number(input.value))
-            );
-        }
-
-        function syncPauseButton() {
-            pauseButton.innerHTML = manualPaused ? "&#x25B6;" : "&#x23F8;";
-            pauseButton.setAttribute("aria-label", manualPaused ? "Resume" : "Pause");
-            pauseButton.setAttribute("title", manualPaused ? "Resume" : "Pause");
-        }
-
-        function makeGrid(width, height) {
-            const arr = new Array(height);
-            for (let y = 0; y < height; y++) {
-                arr[y] = new Array(width).fill(0);
-            }
-            return arr;
-        }
-
-        function fitFont(lines, baseSize, context) {
-            let fontSize = baseSize;
-            context.font = `700 ${fontSize}px ${fontFamily}`;
-            let maxLine = 0;
-            for (const line of lines) {
-                maxLine = Math.max(maxLine, context.measureText(line).width);
-            }
-            const maxWidth = cols * 0.86;
-            if (maxLine > maxWidth) {
-                fontSize = Math.max(8, Math.floor(fontSize * maxWidth / maxLine));
-                context.font = `700 ${fontSize}px ${fontFamily}`;
-            }
-            return fontSize;
-        }
-
-        function seedFromText() {
-            const offscreen = document.createElement("canvas");
-            offscreen.width = cols;
-            offscreen.height = rows;
-            const offCtx = offscreen.getContext("2d");
-            offCtx.clearRect(0, 0, cols, rows);
-            offCtx.fillStyle = "#000";
-            offCtx.textAlign = "center";
-            offCtx.textBaseline = "middle";
-
-            let lines = [phrase];
-            let fontSize = fitFont(lines, Math.floor(rows * 0.4), offCtx);
-            if (fontSize < rows * 0.22 && phrase.includes(" ")) {
-                lines = ["AI for", "Discovery"];
-                fontSize = fitFont(lines, Math.floor(rows * 0.32), offCtx);
-            }
-
-            const lineHeight = fontSize * 1.12;
-            const startY = rows / 2 - (lineHeight * (lines.length - 1)) / 2;
-
-            for (let i = 0; i < lines.length; i++) {
-                offCtx.fillText(lines[i], cols / 2, startY + i * lineHeight);
-            }
-
-            const data = offCtx.getImageData(0, 0, cols, rows).data;
-            for (let y = 0; y < rows; y++) {
-                for (let x = 0; x < cols; x++) {
-                    const alpha = data[(y * cols + x) * 4 + 3];
-                    grid[y][x] = alpha > 10 ? 1 : 0;
-                }
-            }
-
-            sprinkle(0.014);
-            allowEmpty = false;
-        }
-
-        function sprinkle(density) {
-            for (let y = 0; y < rows; y++) {
-                for (let x = 0; x < cols; x++) {
-                    if (!grid[y][x] && Math.random() < density) {
-                        grid[y][x] = 1;
-                    }
-                }
-            }
-        }
-
-        function resize() {
-            const rect = hero.getBoundingClientRect();
-            const dpr = window.devicePixelRatio || 1;
-            cellSize = rect.width < 480 ? 8 : 6;
-            canvas.width = Math.floor(rect.width * dpr);
-            canvas.height = Math.floor(rect.height * dpr);
-            canvas.style.width = `${rect.width}px`;
-            canvas.style.height = `${rect.height}px`;
-            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-            cols = Math.max(1, Math.floor(rect.width / cellSize));
-            rows = Math.max(1, Math.floor(rect.height / cellSize));
-            grid = makeGrid(cols, rows);
-            nextGrid = makeGrid(cols, rows);
-            seedFromText();
-            draw();
-        }
-
-        function countNeighbors(x, y) {
-            let count = 0;
-            for (let dy = -1; dy <= 1; dy++) {
-                for (let dx = -1; dx <= 1; dx++) {
-                    if (dx === 0 && dy === 0) continue;
-                    const nx = (x + dx + cols) % cols;
-                    const ny = (y + dy + rows) % rows;
-                    count += grid[ny][nx];
-                }
-            }
-            return count;
-        }
-
-        function step() {
-            let liveCount = 0;
-            for (let y = 0; y < rows; y++) {
-                for (let x = 0; x < cols; x++) {
-                    const neighbors = countNeighbors(x, y);
-                    const alive = grid[y][x] === 1;
-                    const nextAlive = alive ? survivalRules.has(neighbors) : birthRules.has(neighbors);
-                    nextGrid[y][x] = nextAlive ? 1 : 0;
-                    liveCount += nextGrid[y][x];
-                }
-            }
-            const temp = grid;
-            grid = nextGrid;
-            nextGrid = temp;
-            if (liveCount === 0 && !allowEmpty) {
-                seedFromText();
-            }
-        }
-
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = liveColor;
-            const gap = 1;
-            const size = Math.max(1, cellSize - gap);
-            for (let y = 0; y < rows; y++) {
-                for (let x = 0; x < cols; x++) {
-                    if (grid[y][x]) {
-                        ctx.fillRect(x * cellSize + gap * 0.5, y * cellSize + gap * 0.5, size, size);
-                    }
-                }
-            }
-        }
-
-        function setCellFromEvent(event) {
-            const rect = canvas.getBoundingClientRect();
-            const x = Math.floor((event.clientX - rect.left) / cellSize);
-            const y = Math.floor((event.clientY - rect.top) / cellSize);
-            if (x < 0 || y < 0 || x >= cols || y >= rows) {
-                return;
-            }
-            grid[y][x] = 1;
-            allowEmpty = false;
-            draw();
-        }
-
-        function loop(timestamp) {
-            if (running && timestamp - lastTick > stepMs) {
-                step();
-                draw();
-                lastTick = timestamp;
-            }
-            requestAnimationFrame(loop);
-        }
-
-        let resizeTimer;
-        window.addEventListener("resize", () => {
-            window.clearTimeout(resizeTimer);
-            resizeTimer = window.setTimeout(resize, 150);
-        });
-
-        document.addEventListener("visibilitychange", () => {
-            updateRunning();
-        });
-
-        birthInputs.forEach((input) => {
-            input.addEventListener("change", updateRulesFromInputs);
-        });
-
-        surviveInputs.forEach((input) => {
-            input.addEventListener("change", updateRulesFromInputs);
-        });
-
-        pauseButton.addEventListener("click", () => {
-            userToggled = true;
-            manualPaused = !manualPaused;
-            syncPauseButton();
-            updateRunning();
-        });
-
-        resetButton.addEventListener("click", () => {
-            seedFromText();
-            draw();
-            lastTick = performance.now();
-        });
-
-        clearButton.addEventListener("click", () => {
-            for (let y = 0; y < rows; y++) {
-                grid[y].fill(0);
-            }
-            allowEmpty = true;
-            draw();
-        });
-
-        canvas.addEventListener("pointerdown", (event) => {
-            isDrawing = true;
-            if (canvas.setPointerCapture) {
-                canvas.setPointerCapture(event.pointerId);
-            }
-            setCellFromEvent(event);
-        });
-
-        canvas.addEventListener("pointermove", (event) => {
-            if (!isDrawing) {
-                return;
-            }
-            setCellFromEvent(event);
-        });
-
-        canvas.addEventListener("pointerup", (event) => {
-            isDrawing = false;
-            if (canvas.releasePointerCapture && canvas.hasPointerCapture(event.pointerId)) {
-                canvas.releasePointerCapture(event.pointerId);
-            }
-        });
-
-        canvas.addEventListener("pointerleave", () => {
-            isDrawing = false;
-        });
-
-        canvas.addEventListener("pointercancel", () => {
-            isDrawing = false;
-        });
-
-        if (themeToggle) {
-            themeToggle.addEventListener("click", handleToggle);
-        }
-        if (prefersDarkQuery.addEventListener) {
-            prefersDarkQuery.addEventListener("change", handleSystemChange);
-        } else if (prefersDarkQuery.addListener) {
-            prefersDarkQuery.addListener(handleSystemChange);
-        }
-        applyTheme(getStoredTheme() || getSystemTheme());
-
-        updateRulesFromInputs();
-        updateRunning();
-        syncPauseButton();
-        resize();
-        window.setTimeout(() => {
-            if (!userToggled && manualPaused) {
-                manualPaused = false;
-                syncPauseButton();
-                updateRunning();
-            }
-        }, 3000);
-        requestAnimationFrame(loop);
-    </script>
+    <script src="/simulation.js" defer></script>
 </body>
 </html>
